@@ -32,7 +32,7 @@ A simple, production-style Dockerized Node.js application with MongoDB, built us
 
 🔧 Getting Started :
 1️⃣ Clone the Repository
-git clone https://github.com/YOUR_USERNAME/docker-node-mongo-app.git
+git clone https://github.com/shiwangbisht/docker-node-mongo-app.git
 cd docker-node-mongo-app
 
 2️⃣ Run the Application
@@ -49,3 +49,6 @@ MongoDB data is persisted using Docker volumes.
 
 🤝 Contributing
 Pull requests are welcome! For major changes, please open an issue first.
+
+
+## Adding teraform file to create a EC2-instance using AWS cloud provider and installing docker ##
