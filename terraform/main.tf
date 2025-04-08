@@ -9,23 +9,21 @@ resource "aws_instance" "docker-node-mongo-app" {
 
   security_groups = [aws_security_group.docker-node-mongo-app_sg.name]
 
-  user_data = <<-EOF
-    #!/bin/bash
-    set -e
+  user_data = <<EOF
+  #!/bin/bash
+  yum update -y
 
-    # Update system packages
-    sudo yum update -y
+  # Install Docker
+  amazon-linux-extras install docker -y
+  systemctl start docker
+   enable docker
+  usermod -aG docker ec2-user
 
-    # Install Docker
-    sudo yum install -y docker
-    sudo systemctl enable docker
-    sudo systemctl start docker
-    sudo usermod -aG docker ec2-user
-
-
-    echo "Setup complete"
-    
-  EOF
+  # Install Docker Compose
+  curl -L "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
+  ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+EOF
 
   tags = {
     Name = "docker-node-mongo-app"
@@ -56,6 +54,11 @@ resource "aws_security_group" "docker-node-mongo-app_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_ec2_instance_state" "stop" {
+  instance_id = aws_instance.docker-node-mongo-app.id
+  state       = "running"
 }
 
 output "public_IP" {
