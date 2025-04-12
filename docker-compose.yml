@@ -18,8 +18,8 @@ services:
       - app-networks
 
 volumes:
-  - mongo-data
+  mongo-data: {}
 
 networks:
-  - app-networks
+  app-networks: {}
   
